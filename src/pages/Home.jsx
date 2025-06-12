@@ -3,11 +3,12 @@ import Layout from "../layouts/Layout";
 import HeroSection from "../components/HeroSection";
 import HowItWorks from "../components/HowItWorks";
 import ImpactStats from "../components/ImpactStats";
+import FoodTrackerForm from "../components/FoodTrackerForm";
 import { useAuth } from "../context/AuthContext";
 
 export default function Home() {
   const { token } = useAuth();
-  console.log("🔥 Token from useAuth:", token);
+  // console.log("🔥 Token from useAuth:", token);
   // const tips = [
   //   "Freeze leftover herbs in olive oil!",
   //   "Store apples away from bananas to slow ripening.",
@@ -29,6 +30,7 @@ export default function Home() {
         <HeroSection />
         <HowItWorks />
         <ImpactStats token={token} />
+        <FoodTrackerForm token={token} />
 
         {/* Stats */}
         {/* <div>

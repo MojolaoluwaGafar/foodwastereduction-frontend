@@ -16,7 +16,7 @@ export default function ImpactStats({ token }) {
         });
 
         console.log("Fetched stats:", res.data);
-        setStats(res.data.stats);
+        setStats(res.data);
       } catch (err) {
         console.error(
           "❌ Error fetching stats:",
@@ -29,7 +29,9 @@ export default function ImpactStats({ token }) {
   }, [token]);
   
 
-  if (!stats) return <p className="text-center">Loading your impact...</p>;
+//   if (!stats) return <p className="text-center">Loading your impact...</p>;
+  
+  if (!stats) return <p className="text-center">Couldn’t load impact stats.</p>;
 
   const items = [
     { label: "Items Tracked", value: stats?.itemsTracked || 0, emoji: "📦" },
