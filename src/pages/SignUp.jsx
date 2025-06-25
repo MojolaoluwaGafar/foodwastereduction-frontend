@@ -4,6 +4,9 @@ import { Eye, EyeOff } from "lucide-react";
 import { motion } from "framer-motion";
 import wastelessicon from "../assets/wasteless icon.png";
 import ButtonLoader from "../components/common/loaders/ButtonLoader";
+import showToast from "../utils/showToast";
+
+
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -49,6 +52,7 @@ export default function SignUp() {
   //   }
   // };
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formErrors = validate();
@@ -72,21 +76,25 @@ export default function SignUp() {
       if (!res.ok) {
         if (result.message?.includes("Email")) {
           setErrors({ email: result.message });
+          showToast(result.message); // 🎯 error toast
         } else {
-          alert(result.message || "Signup failed");
+          showToast(result.message || "Signup failed"); // 🎯 generic failure
         }
         return;
       }
 
       console.log("User created:", result);
+      showToast("Account created successfully!"); // ✅ success toast
       navigate("/home");
     } catch (err) {
       console.error("Sign up failed", err);
-      alert("Something went wrong. Please try again.");
+      showToast("Something went wrong. Please try again."); // ❌ network error
     } finally {
       setLoading(false);
     }
   };
+  
+  
   
   
   

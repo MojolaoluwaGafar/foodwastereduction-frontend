@@ -9,15 +9,12 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
-    if (storedToken) setToken(storedToken);
-  }, []);
+    const storedUser = localStorage.getItem("user");
 
-  useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-    if (storedUser) {
-      setUser(storedUser);
-    }
+    if (storedToken) setToken(storedToken);
+    if (storedUser) setUser(JSON.parse(storedUser));
   }, []);
+  
 
   const login = async ( email, password) => {
     try {
@@ -53,7 +50,10 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout,token,setToken }}>
+    <AuthContext.Provider
+      key={user?.email || "no-user"}
+      value={{ user, login, logout, token, setToken }}
+    >
       {children}
     </AuthContext.Provider>
   );

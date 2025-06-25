@@ -7,6 +7,7 @@ import ForgotPassword from "../pages/ForgotPassword";
 import Home from "../pages/Home";
 import TrackedHistory from "../pages/TrackedHistory";
 import NotFound from "../components/common/loaders/NotFound";
+import ResetPassword from "../pages/ResetPassword";
 
 
 export default function AppRoutes() {
@@ -17,6 +18,7 @@ export default function AppRoutes() {
       <Route path="/signup" element={<SignUp />} />
       <Route path="/signin" element={<SignIn />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password/:token" element={<ResetPassword />} />
 
       <Route path="/home" element={<Home />} />
       <Route path="/history" element={<TrackedHistory />} />

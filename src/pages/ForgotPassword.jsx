@@ -26,12 +26,30 @@ export default function ForgotPassword() {
     setMessage("");
     setLoading(true);
 
-    setTimeout(() => {
-      console.log("Forgot password request sent for:", email);
-      setMessage("Password reset instructions have been sent to your email.");
+    try {
+      const res = await fetch(
+        "http://localhost:5050/api/auth/forgot-password",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        }
+      );
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.message || "Something went wrong");
+      } else {
+        setMessage("Password reset instructions have been sent to your email.");
+      }
+    } catch (err) {
+      setError("Network error. Try again later.");
+    } finally {
       setLoading(false);
-    }, 2000);
+    }
   };
+  
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center px-6 bg-green-50">

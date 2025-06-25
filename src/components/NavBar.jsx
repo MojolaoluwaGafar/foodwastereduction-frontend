@@ -39,7 +39,6 @@ const NavItems = ({ onClick }) => (
   </>
 );
 
-
 const UserMenu = ({ user, onLogout }) => (
   <div className="flex items-center space-x-4">
     <div className="w-9 h-9 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-sm shadow">
@@ -57,6 +56,7 @@ const UserMenu = ({ user, onLogout }) => (
 export default function Navbar() {
   const { user, logout } = useContext(AuthContext);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  console.log("Navbar user:", user);
 
   const handleLogout = () => {
     logout();
@@ -66,14 +66,12 @@ export default function Navbar() {
   return (
     <header className="bg-white dark:bg-gray-900 shadow-sm sticky top-0 z-50 backdrop-blur-md border-b border-gray-100 dark:border-gray-700">
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-        {/* Logo */}
         <Link to="/home" className="flex items-center space-x-2">
           <h1 className="text-2xl font-extrabold tracking-wide text-gray-900 dark:text-white">
             WasteLess
           </h1>
         </Link>
 
-        {/* Desktop Nav */}
         <div className="hidden md:flex items-center space-x-6">
           <nav className="flex items-center space-x-2">
             <NavItems />
@@ -90,7 +88,6 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* Mobile Toggle Button */}
         <div className="md:hidden">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -123,7 +120,6 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Nav Menu */}
       {mobileMenuOpen && (
         <div className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 px-4 pt-2 pb-4 transition-all duration-300">
           <nav className="space-y-2 text-lg">

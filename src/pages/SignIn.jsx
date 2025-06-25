@@ -40,7 +40,8 @@ export default function SignIn() {
     setLoading(true);
     try {
       await login(form.email, form.password);
-      navigate("/home");
+      console.log(form.email, form.password);
+      setTimeout(() => navigate("/home"), 50);
     } catch (error) {
       setServerError(error.message || "Failed to sign in");
     } finally {
