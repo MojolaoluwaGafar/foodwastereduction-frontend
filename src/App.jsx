@@ -2,7 +2,8 @@ import "./App.css";
 import { BrowserRouter as Router } from "react-router-dom";
 import AppRoutes from "./routes/AppRoutes";
 import { AuthProvider } from "./context/AuthContext";
-import { Toaster } from "react-hot-toast";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -10,7 +11,7 @@ function App() {
       <AuthProvider>
         <Router>
           <AppRoutes />
-          <Toaster position="top-right" reverseOrder={false} />
+          <ToastContainer />
         </Router>
       </AuthProvider>
     </>

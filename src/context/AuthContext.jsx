@@ -51,8 +51,8 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      key={user?.email || "no-user"}
-      value={{ user, login, logout, token, setToken }}
+      // key={user?.email || "no-user"}
+      value={{ user, login, logout, token, setToken, setUser }}
     >
       {children}
     </AuthContext.Provider>

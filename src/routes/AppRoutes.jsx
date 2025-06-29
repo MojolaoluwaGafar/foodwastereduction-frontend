@@ -8,7 +8,9 @@ import Home from "../pages/Home";
 import TrackedHistory from "../pages/TrackedHistory";
 import NotFound from "../components/common/loaders/NotFound";
 import ResetPassword from "../pages/ResetPassword";
-
+import ShareFood from "../pages/ShareFood";
+import Donations from "../pages/Donations";
+import EditDonation from "../pages/EditDonation";
 
 export default function AppRoutes() {
   return (
@@ -22,6 +24,9 @@ export default function AppRoutes() {
 
       <Route path="/home" element={<Home />} />
       <Route path="/history" element={<TrackedHistory />} />
+      <Route path="/share-food" element={<ShareFood />} />
+      <Route path="/donations" element={<Donations />} />
+      <Route path="/edit-donation/:id" element={<EditDonation />} />
 
       <Route path="*" element={<NotFound />} />
     </Routes>

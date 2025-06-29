@@ -1,9 +1,10 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext"; 
+import { AuthContext } from "../context/AuthContext";
 import WasteLessIcon from "../assets/wasteless icon.png";
 import { Eye, EyeOff } from "lucide-react";
 import ButtonLoader from "../components/common/loaders/ButtonLoader";
+import showCustomToast from "../utils/showCustomToast";
 
 export default function SignIn() {
   const navigate = useNavigate();
@@ -42,8 +43,10 @@ export default function SignIn() {
       await login(form.email, form.password);
       console.log(form.email, form.password);
       setTimeout(() => navigate("/home"), 50);
+      showCustomToast("Successfully signed in!", "success");
     } catch (error) {
       setServerError(error.message || "Failed to sign in");
+      showCustomToast("Something went wrong. Try again!", "error");
     } finally {
       setLoading(false);
     }
@@ -131,10 +134,10 @@ export default function SignIn() {
           disabled={loading}
           className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition text-lg flex items-center justify-center disabled:opacity-70"
         >
-          {loading ? 
-          // <ButtonLoader />
-          "signing in..."
-           : "Sign In"}
+          {loading
+            ? // <ButtonLoader />
+              "signing in..."
+            : "Sign In"}
         </button>
 
         <p className="text-center text-md font-semibold text-green-700">

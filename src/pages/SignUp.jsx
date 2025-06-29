@@ -4,9 +4,9 @@ import { Eye, EyeOff } from "lucide-react";
 import { motion } from "framer-motion";
 import wastelessicon from "../assets/wasteless icon.png";
 import ButtonLoader from "../components/common/loaders/ButtonLoader";
-import showToast from "../utils/showToast";
-
-
+import showCustomToast from "../utils/showCustomToast";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -14,6 +14,8 @@ export default function SignUp() {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const { setToken, setUser } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
 
   const validate = () => {
     const newErrors = {};
@@ -52,7 +54,6 @@ export default function SignUp() {
   //   }
   // };
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formErrors = validate();
@@ -76,28 +77,26 @@ export default function SignUp() {
       if (!res.ok) {
         if (result.message?.includes("Email")) {
           setErrors({ email: result.message });
-          showToast(result.message); // 🎯 error toast
-        } else {
-          showToast(result.message || "Signup failed"); // 🎯 generic failure
+          showCustomToast(result.message, "error");
         }
         return;
       }
 
       console.log("User created:", result);
-      showToast("Account created successfully!"); // ✅ success toast
+      showCustomToast("Account created successfully!", "success"); 
+      localStorage.setItem("user", JSON.stringify(result.user));
+      localStorage.setItem("token", result.token);
+      setUser(result.user);
+      setToken(result.token);
       navigate("/home");
     } catch (err) {
       console.error("Sign up failed", err);
-      showToast("Something went wrong. Please try again."); // ❌ network error
+      showCustomToast("Something went wrong. Please try again.", "error"); 
     } finally {
       setLoading(false);
     }
   };
-  
-  
-  
-  
-  
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -178,10 +177,10 @@ export default function SignUp() {
           disabled={loading}
           className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition text-lg flex items-center justify-center disabled:opacity-70"
         >
-          {loading ?
-          //  <ButtonLoader /> 
-          "signing up..."
-          : "Sign Up"}
+          {loading
+            ? //  <ButtonLoader />
+              "signing up..."
+            : "Sign Up"}
         </button>
 
         <p className="text-center text-base text-green-700 font-medium">
