@@ -1,65 +1,55 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import showCustomToast from "../utils/showCustomToast";
 
-export default function ImpactStats({ token }) {
+export default function ImpactStats() {
   const [stats, setStats] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const fetchStats = async () => {
+    try {
+      const res = await fetch("http://localhost:5050/api/auth/stats", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      if (!res.ok) throw new Error("Failed to fetch user stats");
+
+      const data = await res.json();
+      setStats(data);
+    } catch (error) {
+      showCustomToast(error.message, "error");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchStats = async () => {
-      console.log("Fetching stats with token:", token);
+    fetchStats();
+  }, []);
 
-      try {
-        const res = await axios.get("http://localhost:5050/api/stats", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        console.log("Fetched stats:", res.data);
-        setStats(res.data);
-      } catch (err) {
-        console.error(
-          "❌ Error fetching stats:",
-          err.response?.data || err.message
-        );
-      }
-    };
-
-    if (token) fetchStats();
-  }, [token]);
-  
-
-//   if (!stats) return <p className="text-center">Loading your impact...</p>;
-  
-  if (!stats) return <p className="text-center">Couldn’t load impact stats.</p>;
-
-  const items = [
-    { label: "Items Tracked", value: stats?.itemsTracked || 0, emoji: "📦" },
-    { label: "Food Donated", value: stats?.foodDonated || 0, emoji: "🍛" },
-    { label: "Waste Saved", value: `${stats?.wasteSaved || 0}kg`, emoji: "🌍" },
-  ];
-  
+  if (loading) return <p>Loading stats...</p>;
 
   return (
-    <section className="py-10 px-4 md:px-8 text-center space-y-6">
-      <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
-        Your Impact
-      </h2>
-      <p className="text-gray-600 text-sm md:text-base max-w-xl mx-auto">
-        Every action counts. See how you’ve contributed to reducing food waste.
-      </p>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
-        {items.map((item, index) => (
-          <div
-            key={index}
-            className="bg-green-50 border border-green-100 rounded-xl p-6 shadow"
-          >
-            <div className="text-3xl mb-2">{item.emoji}</div>
-            <p className="text-2xl font-bold text-green-700">{item.value}</p>
-            <p className="text-sm text-gray-500 mt-1">{item.label}</p>
-          </div>
-        ))}
+    <div className="grid grid-cols-3 gap-4 text-center mt-6">
+      <div className="bg-white shadow-md p-4 rounded-lg">
+        <p className="text-sm text-gray-600">Items Tracked</p>
+        <h3 className="text-2xl font-bold text-green-700">
+          {stats.itemsTracked}
+        </h3>
       </div>
-    </section>
+      <div className="bg-white shadow-md p-4 rounded-lg">
+        <p className="text-sm text-gray-600">Food Donated</p>
+        <h3 className="text-2xl font-bold text-green-700">
+          {stats.foodDonated}
+        </h3>
+      </div>
+      <div className="bg-white shadow-md p-4 rounded-lg">
+        <p className="text-sm text-gray-600">Waste Saved (kg)</p>
+        <h3 className="text-2xl font-bold text-green-700">
+          {stats.wasteSaved}
+        </h3>
+      </div>
+    </div>
   );
 }
