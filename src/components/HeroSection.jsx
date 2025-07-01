@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function HeroSection() {
   return (
     <div className="w-full  overflow-hidden">
@@ -23,7 +25,9 @@ export default function HeroSection() {
             ➕ Track Food
           </button>
           <button className="border-2 border-green-600 hover:bg-green-700  py-3 px-6 rounded-md font-medium text-lg transition lg:w-[220px]">
-            ❤️ Donate Food
+            <Link to="/create-donation" className="btn-primary">
+              ❤️ Donate Food
+            </Link>
           </button>
         </div>
       </div>

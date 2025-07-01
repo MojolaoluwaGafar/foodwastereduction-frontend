@@ -4,7 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 
 const navItems = [
   { path: "/home", label: "Home" },
-  { path: "/share-food", label: "Share Food" },
+  {path: "/create-donation", label: "Create Donation"},
   { path: "/donations", label: "My Donations" },
 ];
 
