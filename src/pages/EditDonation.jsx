@@ -11,6 +11,8 @@ export default function EditDonation() {
     description: "",
     location: "",
     image: "",
+    expiryDate: "",
+    quantity: 1,
   });
   const [loading, setLoading] = useState(true);
 
@@ -34,7 +36,8 @@ export default function EditDonation() {
   };
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
   };
 
   const handleSubmit = async (e) => {
@@ -99,6 +102,23 @@ export default function EditDonation() {
               onChange={handleChange}
               className="w-full border p-3 rounded"
               placeholder="Location"
+            />
+            <input
+              type="date"
+              name="expiryDate"
+              value={form.expiryDate?.split("T")[0] || ""}
+              onChange={handleChange}
+              className="w-full border p-3 rounded"
+              placeholder="Expiry Date"
+            />
+            <input
+              type="number"
+              name="quantity"
+              min="1"
+              value={form.quantity}
+              onChange={handleChange}
+              className="w-full border p-3 rounded"
+              placeholder="Quantity"
             />
             {form.image && (
               <img

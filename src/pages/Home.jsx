@@ -1,13 +1,31 @@
-// import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Layout from "../layouts/Layout";
 import HeroSection from "../components/HeroSection";
 import HowItWorks from "../components/HowItWorks";
 import ImpactStats from "../components/ImpactStats";
 import FoodTrackerForm from "../components/FoodTrackerForm";
 import { useAuth } from "../context/AuthContext";
+import DonationCard from "../components/DonationCard";
 
 export default function Home() {
   const { token } = useAuth();
+  const [publicDonations, setPublicDonations] = useState([]);
+
+  useEffect(() => {
+    if (!token) {
+      const fetchPublicDonations = async () => {
+        try {
+          const res = await fetch("http://localhost:5050/api/food/public");
+          const data = await res.json();
+          setPublicDonations(data);
+        } catch (err) {
+          console.error("❌ Failed to fetch public donations", err);
+        }
+      };
+      fetchPublicDonations();
+    }
+  }, [token]);
+  
   // console.log("🔥 Token from useAuth:", token);
   // const tips = [
   //   "Freeze leftover herbs in olive oil!",
@@ -31,6 +49,23 @@ export default function Home() {
         <HowItWorks />
         <ImpactStats token={token} />
         <FoodTrackerForm token={token} />
+
+        {!token && (
+          <div className="mt-12">
+            <h2 className="text-2xl font-bold text-green-800 mb-4">
+              Recently Shared Food
+            </h2>
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+              {publicDonations.length > 0 ? (
+                publicDonations.map((donation) => (
+                  <DonationCard key={donation._id} donation={donation} />
+                ))
+              ) : (
+                <p className="text-gray-500">No donations yet. Be the first!</p>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Stats */}
         {/* <div>

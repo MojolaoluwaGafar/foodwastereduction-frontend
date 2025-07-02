@@ -11,11 +11,14 @@ export default function CreateDonation() {
     description: "",
     location: "",
     image: "",
+    expiryDate: "",
+    quantity: 1,
   });
   const [uploading, setUploading] = useState(false);
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
   };
 
   const handleImageUpload = async (e) => {
@@ -36,6 +39,11 @@ export default function CreateDonation() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!form.image) {
+      return showCustomToast("Image is required", "error");
+    }
+
     try {
       const res = await fetch("http://localhost:5050/api/food", {
         method: "POST",
@@ -94,7 +102,24 @@ export default function CreateDonation() {
             placeholder="Location"
             required
           />
-
+          <input
+            type="date"
+            name="expiryDate"
+            value={form.expiryDate}
+            onChange={handleChange}
+            className="w-full border p-3 rounded"
+            required
+          />
+          <input
+            type="number"
+            name="quantity"
+            value={form.quantity}
+            onChange={handleChange}
+            className="w-full border p-3 rounded"
+            placeholder="Quantity"
+            min={1}
+            required
+          />
           <input
             type="file"
             accept="image/*"
