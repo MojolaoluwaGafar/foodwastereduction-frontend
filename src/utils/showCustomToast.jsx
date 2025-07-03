@@ -1,4 +1,3 @@
-// src/utils/showCustomToast.js
 import { toast } from "react-toastify";
 import CustomToast from "../components/CustomToast";
 

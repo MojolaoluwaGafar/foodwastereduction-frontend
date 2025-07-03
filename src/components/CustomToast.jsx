@@ -1,4 +1,3 @@
-// src/components/CustomToast.jsx
 import { X, CheckCircle, AlertTriangle } from "lucide-react";
 import PropTypes from "prop-types";
 import clsx from "clsx";

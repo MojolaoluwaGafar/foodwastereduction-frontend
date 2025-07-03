@@ -34,12 +34,11 @@ export default function AuthOptions() {
         alt="WasteLess Logo"
         className="w-28 h-28 mb-6 drop-shadow-md"
       />
-
-      <h1 className="text-3xl font-bold text-green-800 mb-2">
-        Let’s get started
-      </h1>
-
-      <p className="text-green-700 mb-10 text-lg max-w-md">
+      <h1 className="text-4xl font-bold text-green-800 mb-2">WasteLess</h1>
+      {/* <p className="text-lg max-w-md">
+        Let’s get started with your food-saving journey! 
+      </p> */}
+      <p className="mb-10 text-lg max-w-md">
         Create an account or sign in to continue your food-saving journey.
       </p>
 
@@ -69,7 +68,7 @@ export default function AuthOptions() {
           {isNavigating === "signin" ? (
             <span className="flex items-center gap-2">
               {/* <ButtonLoader size={20} color="green" /> */}
-               Redirecting...
+              Redirecting...
             </span>
           ) : (
             "Sign In"

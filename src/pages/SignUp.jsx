@@ -7,6 +7,9 @@ import ButtonLoader from "../components/common/loaders/ButtonLoader";
 import showCustomToast from "../utils/showCustomToast";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { useGoogleLogin } from "@react-oauth/google";
+import { FcGoogle } from "react-icons/fc";
+import axios from "axios";
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -96,6 +99,28 @@ export default function SignUp() {
       setLoading(false);
     }
   };
+  const googleSignup = useGoogleLogin({
+    flow: "implicit",
+    onSuccess: async (tokenResponse) => {
+      try {
+        console.log("Google Token Response:", tokenResponse);
+
+        const res = await axios.post(
+          "https://it-project-server.onrender.com/api/auth/google",
+          {
+            token: tokenResponse.access_token,
+          }
+        );
+        console.log("Signup Success", res.data);
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+        navigate("/home");
+      } catch (err) {
+        console.error("Signup failed", err.response?.data || err.message);
+      }
+    },
+    onError: () => console.log("Google Signup Failed"),
+  });
 
   return (
     <motion.div
@@ -181,6 +206,13 @@ export default function SignUp() {
             ? //  <ButtonLoader />
               "signing up..."
             : "Sign Up"}
+        </button>
+        <p className="text-center text-gray-700">or</p>
+        <button
+          onClick={() => googleSignup()}
+          className="border-2 border-gray-300 rounded-md w-full  flex items-center justify-center py-3 text-lg font-semibold text-gray-700"
+        >
+          Sign up with Google <FcGoogle size={20} />
         </button>
 
         <p className="text-center text-base text-green-700 font-medium">

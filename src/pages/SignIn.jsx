@@ -5,6 +5,9 @@ import WasteLessIcon from "../assets/wasteless icon.png";
 import { Eye, EyeOff } from "lucide-react";
 import ButtonLoader from "../components/common/loaders/ButtonLoader";
 import showCustomToast from "../utils/showCustomToast";
+import { useGoogleLogin } from "@react-oauth/google";
+import { FcGoogle } from "react-icons/fc";
+import axios from "axios";
 
 export default function SignIn() {
   const navigate = useNavigate();
@@ -51,6 +54,27 @@ export default function SignIn() {
       setLoading(false);
     }
   };
+  
+  const googleSignin = useGoogleLogin({
+    flow: "implicit",
+    onSuccess: async (tokenResponse) => {
+      try {
+        console.log("Google Token Response:", tokenResponse);
+
+        const res = await axios.post("http://localhost:5050/api/auth/google", {
+          token: tokenResponse.access_token,
+        });
+
+        console.log("SignIn Success", res.data);
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+        navigate("/home");
+      } catch (err) {
+        console.error("SignIn failed", err.response?.data || err.message);
+      }
+    },
+    onError: () => console.log("Google SignIn Failed"),
+  });
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center px-6 bg-green-50">
@@ -138,6 +162,13 @@ export default function SignIn() {
             ? // <ButtonLoader />
               "signing in..."
             : "Sign In"}
+        </button>
+        <p className="text-center text-gray-700">or</p>
+        <button
+          onClick={() => googleSignin()}
+          className="border-2 border-gray-300 rounded-md w-full  flex items-center justify-center py-3 text-lg font-semibold text-gray-700"
+        >
+          Sign in with Google <FcGoogle size={20} />
         </button>
 
         <p className="text-center text-md font-semibold text-green-700">
