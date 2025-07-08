@@ -15,7 +15,9 @@ export default function Home() {
     if (!token) {
       const fetchPublicDonations = async () => {
         try {
-          const res = await fetch("http://localhost:5050/api/food/public");
+          const res = await fetch(
+            "https://foodwastereduction-backend.onrender.com/api/food/public"
+          );
           const data = await res.json();
           setPublicDonations(data);
         } catch (err) {

@@ -45,14 +45,17 @@ export default function CreateDonation() {
     }
 
     try {
-      const res = await fetch("http://localhost:5050/api/food", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify(form),
-      });
+      const res = await fetch(
+        "https://foodwastereduction-backend.onrender.com/api/food",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify(form),
+        }
+      );
 
       if (!res.ok) throw new Error("Failed to create donation");
 

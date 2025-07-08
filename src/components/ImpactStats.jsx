@@ -12,11 +12,14 @@ export default function ImpactStats() {
 
     const fetchStats = async () => {
       try {
-        const res = await fetch("http://localhost:5050/api/auth/stats", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const res = await fetch(
+          "https://foodwastereduction-backend.onrender.com/api/auth/stats",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         if (!res.ok) throw new Error("Unauthorized");
 

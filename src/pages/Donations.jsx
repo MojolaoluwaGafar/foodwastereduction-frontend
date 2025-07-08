@@ -30,12 +30,15 @@ export default function Donations() {
     if (!confirm("Are you sure you want to delete this donation?")) return;
 
     try {
-      const res = await fetch(`http://localhost:5050/api/food/${id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const res = await fetch(
+        `https://foodwastereduction-backend.onrender.com/api/food/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
       if (!res.ok) throw new Error("Delete failed");
       showCustomToast("Donation deleted", "success");

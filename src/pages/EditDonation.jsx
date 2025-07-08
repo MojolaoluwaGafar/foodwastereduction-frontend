@@ -18,11 +18,14 @@ export default function EditDonation() {
 
   const fetchDonation = async () => {
     try {
-      const res = await fetch(`http://localhost:5050/api/food/${id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const res = await fetch(
+        `https://foodwastereduction-backend.onrender.com/api/food/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
       if (!res.ok) throw new Error("Failed to fetch donation");
 
@@ -43,14 +46,17 @@ export default function EditDonation() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(`http://localhost:5050/api/food/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify(form),
-      });
+      const res = await fetch(
+        `https://foodwastereduction-backend.onrender.com/api/food/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify(form),
+        }
+      );
 
       if (!res.ok) throw new Error("Update failed");
 

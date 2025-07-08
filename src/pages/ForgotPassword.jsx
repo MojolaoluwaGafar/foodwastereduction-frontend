@@ -28,7 +28,7 @@ export default function ForgotPassword() {
 
     try {
       const res = await fetch(
-        "http://localhost:5050/api/auth/forgot-password",
+        "https://foodwastereduction-backend.onrender.com/api/auth/forgot-password",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

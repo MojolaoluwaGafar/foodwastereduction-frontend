@@ -10,11 +10,14 @@ export default function TrackedHistory() {
   useEffect(() => {
     const fetchTrackedItems = async () => {
       try {
-        const res = await axios.get("http://localhost:5050/api/tracked", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const res = await axios.get(
+          "https://foodwastereduction-backend.onrender.com/api/tracked",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         
         setItems(res.data.items);
       } catch (err) {

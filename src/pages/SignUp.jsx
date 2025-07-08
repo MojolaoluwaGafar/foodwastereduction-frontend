@@ -67,13 +67,16 @@ export default function SignUp() {
 
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5050/api/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(form),
-      });
+      const res = await fetch(
+        "https://foodwastereduction-backend.onrender.com/api/auth/signup",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(form),
+        }
+      );
 
       const result = await res.json();
 
@@ -99,28 +102,34 @@ export default function SignUp() {
       setLoading(false);
     }
   };
-  const googleSignup = useGoogleLogin({
-    flow: "implicit",
-    onSuccess: async (tokenResponse) => {
-      try {
-        console.log("Google Token Response:", tokenResponse);
 
-        const res = await axios.post(
-          "https://it-project-server.onrender.com/api/auth/google",
-          {
-            token: tokenResponse.access_token,
-          }
-        );
-        console.log("Signup Success", res.data);
-        localStorage.setItem("token", res.data.token);
-        localStorage.setItem("user", JSON.stringify(res.data.user));
-        navigate("/home");
-      } catch (err) {
-        console.error("Signup failed", err.response?.data || err.message);
-      }
-    },
-    onError: () => console.log("Google Signup Failed"),
-  });
+   const googleSignup = useGoogleLogin({
+     flow: "implicit",
+     onSuccess: async (tokenResponse) => {
+       try {
+         console.log("Google Token Response:", tokenResponse);
+ 
+         const res = await axios.post(
+           "https://foodwastereduction-backend.onrender.com/api/auth/google",
+           {
+             token: tokenResponse.access_token,
+           }
+         );
+         console.log("SignIn Success", res.data);
+ 
+         setUser(res.data.user);
+         setToken(res.data.token);
+         localStorage.setItem("token", res.data.token);
+         localStorage.setItem("user", JSON.stringify(res.data.user));
+         navigate("/home");
+         showCustomToast("Successfully signed in!", "success");
+       } catch (err) {
+         console.error("SignIn failed", err.response?.data || err.message);
+         showCustomToast("Something went wrong. Try again!", "error");
+       }
+     },
+     onError: () => console.log("Google SignIn Failed"),
+   });
 
   return (
     <motion.div

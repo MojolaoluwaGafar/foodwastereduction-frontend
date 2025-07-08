@@ -17,6 +17,7 @@ export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [serverError, setServerError] = useState("");
+  const { setUser, setToken } = useContext(AuthContext);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -61,16 +62,23 @@ export default function SignIn() {
       try {
         console.log("Google Token Response:", tokenResponse);
 
-        const res = await axios.post("http://localhost:5050/api/auth/google", {
-          token: tokenResponse.access_token,
-        });
-
+        const res = await axios.post(
+          "https://foodwastereduction-backend.onrender.com/api/auth/google",
+          {
+            token: tokenResponse.access_token,
+          }
+        );
         console.log("SignIn Success", res.data);
+
+        setUser(res.data.user);
+        setToken(res.data.token);
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("user", JSON.stringify(res.data.user));
         navigate("/home");
+        showCustomToast("Successfully signed in!", "success");
       } catch (err) {
         console.error("SignIn failed", err.response?.data || err.message);
+        showCustomToast("Something went wrong. Try again!", "error");
       }
     },
     onError: () => console.log("Google SignIn Failed"),
@@ -166,7 +174,7 @@ export default function SignIn() {
         <p className="text-center text-gray-700">or</p>
         <button
           onClick={() => googleSignin()}
-          className="border-2 border-gray-300 rounded-md w-full  flex items-center justify-center py-3 text-lg font-semibold text-gray-700"
+          className="border-2 border-gray-300 rounded-lg w-full  flex items-center justify-center py-3 text-lg font-semibold text-gray-700"
         >
           Sign in with Google <FcGoogle size={20} />
         </button>

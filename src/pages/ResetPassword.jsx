@@ -23,7 +23,7 @@ export default function ResetPassword() {
 
     try {
       const res = await fetch(
-        `http://localhost:5050/api/auth/reset-password/${token}`,
+        `https://foodwastereduction-backend.onrender.com/api/auth/reset-password/${token}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

@@ -1,10 +1,10 @@
-import { useState, useContext } from "react";
+import { useState, useEffect } from "react";
 import { NavLink, Link } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 
 const navItems = [
   { path: "/home", label: "Home" },
-  {path: "/create-donation", label: "Create Donation"},
+  { path: "/create-donation", label: "Create Donation" },
   { path: "/donations", label: "My Donations" },
 ];
 
@@ -25,8 +25,7 @@ const NavItems = ({ onClick }) => (
         to={path}
         onClick={onClick}
         className={({ isActive }) =>
-          `block px-4 py-2 rounded-lg text-md font-medium transition duration-200 
-          ${
+          `block px-4 py-2 rounded-lg text-md font-medium transition duration-200 ${
             isActive
               ? "text-green-700 font-semibold bg-green-50"
               : "hover:text-green-600 hover:bg-gray-100"
@@ -42,7 +41,7 @@ const NavItems = ({ onClick }) => (
 const UserMenu = ({ user, onLogout }) => (
   <div className="flex items-center space-x-4">
     <div className="w-9 h-9 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-sm shadow">
-      {getInitials(user.fullName || user.name)}
+      {getInitials(user.name || user.fullName)}
     </div>
     <button
       onClick={onLogout}
@@ -54,17 +53,24 @@ const UserMenu = ({ user, onLogout }) => (
 );
 
 export default function Navbar() {
-  const { user, logout } = useContext(AuthContext);
+  const { user, logout } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  console.log("Navbar user:", user);
 
   const handleLogout = () => {
     logout();
     setMobileMenuOpen(false);
   };
 
+  useEffect(() => {
+    console.log("Navbar updated, user is:", user);
+  }, [user]);
+  
+
   return (
-    <header className="bg-white dark:bg-gray-900 shadow-sm sticky top-0 z-50 backdrop-blur-md border-b border-gray-100 dark:border-gray-700">
+    <header
+      key={user?.email} 
+      className="bg-white dark:bg-gray-900 shadow-sm sticky top-0 z-50 backdrop-blur-md border-b border-gray-100 dark:border-gray-700"
+    >
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         <Link to="/home" className="flex items-center space-x-2">
           <h1 className="text-2xl font-extrabold tracking-wide text-gray-900 dark:text-white">

@@ -23,7 +23,7 @@ export default function FoodTrackerForm({ token, onSuccess }) {
 
     try {
       const res = await axios.post(
-        "http://localhost:5050/api/track",
+        "https://foodwastereduction-backend.onrender.com/api/track",
         formData,
         {
           headers: {

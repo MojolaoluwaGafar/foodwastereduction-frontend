@@ -96,7 +96,7 @@ export default function Welcome() {
           <button
             key={reason.id}
             onClick={() => toggleReason(reason.id)}
-            className={`w-full py-3 text-lg font-semibold text-green-700 px-4 rounded-lg border-1 transition duration-200 ${
+            className={`w-full py-3 text-lg font-semibold text-green-700 px-4 rounded-lg border-1 transition duration-200  ${
               selectedReasons.includes(reason.id)
                 ? "bg-green-600 text-white border-green-700"
                 : "bg-white text-gray-800  hover:border-green-500"
