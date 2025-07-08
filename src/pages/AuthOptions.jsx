@@ -11,7 +11,7 @@ export default function AuthOptions() {
   const [isNavigating, setIsNavigating] = useState(null); // null, 'signup', or 'signin'
 
   useEffect(() => {
-    const timer = setTimeout(() => setPageLoading(false), 1000);
+    const timer = setTimeout(() => setPageLoading(false), 10);
     return () => clearTimeout(timer);
   }, []);
 
