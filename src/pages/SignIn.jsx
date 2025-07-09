@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import WasteLessIcon from "../assets/wasteless icon.png";
+import WasteLessIcon from "../../public/wasteless icon.png";
 import { Eye, EyeOff } from "lucide-react";
 import ButtonLoader from "../components/common/loaders/ButtonLoader";
 import showCustomToast from "../utils/showCustomToast";
@@ -62,12 +62,9 @@ export default function SignIn() {
       try {
         console.log("Google Token Response:", tokenResponse);
 
-        const res = await axios.post(
-          "https://foodwastereduction-backend.onrender.com/api/auth/google",
-          {
-            token: tokenResponse.access_token,
-          }
-        );
+        const res = await axios.post("https://foodwastereduction-backend.onrender.com/api/auth/google", {
+          token: tokenResponse.access_token,
+        });
         console.log("SignIn Success", res.data);
 
         setUser(res.data.user);
