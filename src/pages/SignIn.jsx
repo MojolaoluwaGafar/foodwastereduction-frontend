@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import WasteLessIcon from "../../public/wasteless icon.png";
+import WasteLessIcon from "../assets/wasteless icon.png";
 import { Eye, EyeOff } from "lucide-react";
 import ButtonLoader from "../components/common/loaders/ButtonLoader";
 import showCustomToast from "../utils/showCustomToast";
