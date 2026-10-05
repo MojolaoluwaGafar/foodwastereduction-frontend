@@ -4,8 +4,9 @@ import { authService } from "../API/services/authService";
 import { useAuth } from "../Context/AuthContext";
 import { apiErrorMessage } from "../utils/apiError";
 import { showToast } from "../utils/toastHelper";
+import { GOOGLE_CLIENT_ID } from "../utils/google";
 
-export const googleEnabled = Boolean(import.meta.env.VITE_GOOGLE_CLIENT_ID);
+export const googleEnabled = Boolean(GOOGLE_CLIENT_ID);
 
 // Google's own button, which returns an ID token the server verifies against
 // our client ID. The first version sent an access token instead, which any
