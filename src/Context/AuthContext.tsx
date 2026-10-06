@@ -16,17 +16,23 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
+// Some accounts from the first version have no name saved; showing the page
+// must never depend on one.
+const withName = (user: User | null): User | null =>
+  user ? { ...user, name: user.name?.trim() || user.email?.split("@")[0] || "Friend" } : null;
+
 // The saved session is read synchronously so the first render already knows
 // who is signed in; loading it in an effect would bounce people to the login
 // page on every refresh (the first version did). The profile is then
 // refreshed from the server once, which also catches a revoked login.
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [token, setToken] = useState<string | null>(getToken);
-  const [user, setUserState] = useState<User | null>(() => (getToken() ? readJson<User | null>(USER_KEY, null) : null));
+  const [user, setUserState] = useState<User | null>(() => (getToken() ? withName(readJson<User | null>(USER_KEY, null)) : null));
 
   const setUser = useCallback((next: User) => {
-    writeJson(USER_KEY, next);
-    setUserState(next);
+    const named = withName(next);
+    writeJson(USER_KEY, named);
+    setUserState(named);
   }, []);
 
   const signIn = useCallback(

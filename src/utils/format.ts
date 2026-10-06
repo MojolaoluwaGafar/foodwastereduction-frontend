@@ -67,8 +67,8 @@ export function timeAgo(iso: string): string {
 }
 
 // Initials for the avatar circle: "Ada Obi" -> "AO".
-export const initials = (name: string) =>
-  name
+export const initials = (name: string | null | undefined) =>
+  (name ?? "")
     .trim()
     .split(/\s+/)
     .slice(0, 2)
