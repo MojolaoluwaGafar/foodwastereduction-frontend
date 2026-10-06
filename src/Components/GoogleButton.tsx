@@ -27,6 +27,10 @@ export default function GoogleButton({ onDone, text = "continue_with" }: { onDon
           shape="pill"
           size="large"
           width="320"
+          // Chrome and Edge show their own account picker (FedCM) instead of
+          // a popup window, which popup and ad blockers often stop. Other
+          // browsers still use the popup.
+          use_fedcm_for_button
           onSuccess={async ({ credential }) => {
             if (!credential) return showToast("Google sign-in didn't complete. Try again.", "error");
             setBusy(true);
@@ -42,6 +46,7 @@ export default function GoogleButton({ onDone, text = "continue_with" }: { onDon
           onError={() => showToast("Google sign-in was closed or blocked.", "error")}
         />
       </div>
+      <p className="mt-2 text-center text-xs text-outline">If nothing opens, allow pop-ups for this site and try again.</p>
     </div>
   );
 }
